@@ -6,6 +6,7 @@ from django.db.models import Min, Max, Avg, Count
 
 from .serializers import JobSerializers
 from .models import Job
+from .filters import JobsFilters
 
 from django.shortcuts import get_object_or_404
 # Create your views here.
@@ -14,9 +15,9 @@ from django.shortcuts import get_object_or_404
 @api_view(['GET'])
 def getAllJobs(request):
 
-    jobs = Job.objects.all()
+    filterset = JobsFilters(request.GET, queryset = Job.objects.all().order_by('id'))
 
-    serializer = JobSerializers(jobs, many=True)
+    serializer = JobSerializers(filterset.qs, many=True)
 
     return Response(serializer.data)
 
