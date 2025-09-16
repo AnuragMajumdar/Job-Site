@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 # import dotenv
 from dotenv import load_dotenv
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,7 +48,8 @@ INSTALLED_APPS = [
     'corsheaders',
     # 'storages',
     'django_filters',
-    'job.apps.JobConfig'
+    'job.apps.JobConfig',
+    'account.apps.AccountConfig'
 ]
 
 MIDDLEWARE = [
@@ -113,6 +115,18 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES' : (
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME' : timedelta(days=15),
+    'AUTH_HEADER_TYPES' : ('Bearer',),
+    'AUTH_TOKEN_CLASSES' : ('rest_framework_simplejwt.tokens.AccessToken')
+}
 
 
 # Internationalization
